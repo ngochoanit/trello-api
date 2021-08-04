@@ -1,0 +1,30 @@
+{
+  "name": "trello-api",
+  "version": "1.0.0",
+  "description": "Api for trello application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngochoanit/trello-api.git"
+  },
+  "keywords": [],
+  "author": "Ngọc Hoàn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngochoanit/trello-api/issues"
+  },
+  "homepage": "https://github.com/ngochoanit/trello-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/eslint-parser": "^7.14.9",
+    "eslint": "^7.32.0"
+  }
+}
