@@ -1,10 +1,10 @@
 import express from 'express'
-import { mapOrder } from './utilities/mapOrder'
+import { mapOrder } from '*/utilities/mapOrder.js'
 const app = express()
 const hostname = 'localhost'
 const port = 3000
 app.get('/', function (req, res) {
-    mapOrder([1, 2, 3], 2)
+    mapOrder([{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }], [{ 'id': 1 }, { 'id': 3 }, { 'id': 2 }], 'id')
     res.send('Hello World')
 })
 
