@@ -20,11 +20,10 @@ const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
         const result = await getDB().collection(boardCollection).insertOne(value)
-        console.log('log--------', result)
         return result
     }
     catch (error) {
-        console.error('error--------', error)
+        throw new Error(error)
     }
 }
 export const BoardModel = { createNew }
