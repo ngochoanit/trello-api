@@ -9,5 +9,10 @@ const router = express.Router()
 router.route('/')
     // .get((req, res) => { console.log('Get Boards') })
     .post(BoardValidation.createNew, BoardController.createNew)
+/**\
+ * Get Board
+ */
+router.route('/:id')
+    .get(BoardController.getFullBoard)
 
 export const BoardRoutes = router

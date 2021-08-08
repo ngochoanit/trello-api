@@ -10,7 +10,7 @@ const columnCollection = 'columns'
 
 const columnCollectionSchema = Joi.object({
     boardId: Joi.string().required(),
-    title: Joi.string().required().min(3).max(20).trim(),
+    title: Joi.string().required().min(3).max(50).trim(),
     cardOrder: Joi.array().items(Joi.string()).default([]),
     createdAt: Joi.date().timestamp().default(Date.now()),
     updatedAt: Joi.date().timestamp().default(null),
@@ -25,8 +25,31 @@ const validateSchema = async (data) => {
  */
 const createNew = async (data) => {
     try {
-        const value = await validateSchema(data)
-        const result = await getDB().collection(columnCollection).insertOne(value)
+        const validatedValue = await validateSchema(data)
+        const insertValue = {
+            ...validatedValue,
+            boardId: ObjectId(validatedValue.boardId)
+        }
+        const result = await getDB().collection(columnCollection).insertOne(insertValue)
+        return result
+    }
+    catch (error) {
+        throw new Error(error)
+    }
+}
+/**
+ *Push column order
+ */
+const pushCardOrder = async (columnId, cardId) => {
+    try {
+        const result = await getDB().collection(columnCollection).findOneAndUpdate(
+            { _id: columnId },
+            { $push: { cardOrder: cardId } },
+            {
+                upsert: true,
+                returnNewDocument: true
+            })
+        console.log(result)
         return result
     }
     catch (error) {
@@ -52,4 +75,4 @@ const update = async (id, data) => {
         throw new Error(error)
     }
 }
-export const ColumnModel = { createNew, update }
+export const ColumnModel = { columnCollection, createNew, pushCardOrder, update }
