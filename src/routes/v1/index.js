@@ -1,6 +1,8 @@
 import express from 'express'
 import { HttpStatusCode } from '*/utilities/contans'
-import { boardRoutes } from './board.route'
+import { BoardRoutes } from './board.route'
+import { ColumnRoutes } from './column.route'
+import { CardRoutes } from './card.route'
 
 const router = express.Router()
 
@@ -12,5 +14,13 @@ router.get('/status', (req, res) => { res.status(HttpStatusCode.OK).json({ statu
 /**
  * Board APIs
  */
-router.use('/boards', boardRoutes)
+router.use('/boards', BoardRoutes)
+/**
+ * Column APIs
+ */
+router.use('/columns', ColumnRoutes)
+/**
+ * Card APIs
+ */
+router.use('/cards', CardRoutes)
 export const apiV1 = router

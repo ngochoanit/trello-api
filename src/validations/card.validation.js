@@ -2,11 +2,13 @@ import Joi from 'joi'
 import { HttpStatusCode } from '*/utilities/contans'
 
 /**
- * validation for create new Board
+ * validation for create new Card
  */
 const createNew = async (req, res, next) => {
     const condition = Joi.object({
-        title: Joi.string().required().min(3).max(20).trim()
+        boardId: Joi.string().required(),
+        columnId: Joi.string().required(),
+        title: Joi.string().required().min(3).max(50).trim()
     })
     try {
         await condition.validateAsync(req.body, { abortEarly: false })
@@ -18,4 +20,5 @@ const createNew = async (req, res, next) => {
         })
     }
 }
-export const BoardValidation = { createNew }
+
+export const CardValidation = { createNew }
