@@ -1,4 +1,4 @@
-import { WHILE_LIST } from '*/utilities/contans'
+import { WHILE_LIST } from '*/utilities/constants'
 export const corsOptions = {
     origin: function (origin, callback) {
         if (WHILE_LIST.indexOf(origin) !== -1) {

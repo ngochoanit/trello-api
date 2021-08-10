@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 
 /**
  * validation for create new column
@@ -10,7 +10,7 @@ const createNew = async (req, res, next) => {
         boardId: Joi.string().required()
     })
     try {
-        await condition.validateAsync(req.body, { abortEarly: false })
+        await condition.validateAsync(req.body, { allowUnknown: true, abortEarly: false })
         next()
     }
     catch (error) {

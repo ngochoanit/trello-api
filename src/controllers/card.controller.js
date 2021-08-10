@@ -1,5 +1,5 @@
 import { CardService } from '*/services/Card.service'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 
 /**
  * controller create new card

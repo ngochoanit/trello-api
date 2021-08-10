@@ -1,5 +1,5 @@
 import { BoardService } from '*/services/board.service'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 
 /**
  * controller create new board

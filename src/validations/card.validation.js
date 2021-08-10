@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 
 /**
  * validation for create new Card
@@ -11,7 +11,7 @@ const createNew = async (req, res, next) => {
         title: Joi.string().required().min(3).max(50).trim()
     })
     try {
-        await condition.validateAsync(req.body, { abortEarly: false })
+        await condition.validateAsync(req.body, { allowUnknown: true, abortEarly: false })
         next()
     }
     catch (error) {

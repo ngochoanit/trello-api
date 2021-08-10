@@ -1,5 +1,6 @@
 import { ColumnModel } from '*/models/column.model'
 import { BoardModel } from '*/models/board.model'
+import { CardModel } from '*/models/card.model'
 import { ObjectId } from 'mongodb'
 
 /**
@@ -8,10 +9,12 @@ import { ObjectId } from 'mongodb'
 const createNew = async (data) => {
     try {
         const newColumn = await ColumnModel.createNew(data)
-        //update columnOrder array in the Board
-        const boardId = ObjectId(data.boardId)
-        const columnId = newColumn.insertedId
-        const updatedBoard = await BoardModel.pushColumOrder(boardId, columnId.toString())
+        //update columnOrder and cards array in the Board
+        newColumn.cardOrder = []
+        newColumn.cards = []
+        const boardId = ObjectId(newColumn.boardId)
+        const columnId = newColumn._id
+        await BoardModel.pushColumOrder(boardId, columnId.toString())
         return newColumn
     }
     catch (error) {
@@ -19,13 +22,22 @@ const createNew = async (data) => {
     }
 }
 /**
- * service create new column
+ * service update new column
 */
 const update = async (id, data) => {
     try {
-        const updateDate = { ...data, updatedAt: Date.now() }
-        const result = await ColumnModel.update(id, updateDate)
-        return result
+        const updateData = { ...data, updatedAt: Date.now(), boardId: ObjectId(data.boardId) }
+        if (updateData._id) delete updateData._id
+        if (updateData.cards) delete updateData.cards
+        const updateColumn = await ColumnModel.update(id, updateData)
+        if (updateColumn._destroy) {
+            //delete many card in this column
+            await CardModel.deleteMany(id)
+
+        }
+        updateColumn.cards = data.cards
+
+        return updateColumn
     }
     catch (error) {
         throw new Error(error)
