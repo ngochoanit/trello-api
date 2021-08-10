@@ -1,5 +1,5 @@
 import express from 'express'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 import { BoardRoutes } from './board.route'
 import { ColumnRoutes } from './column.route'
 import { CardRoutes } from './card.route'

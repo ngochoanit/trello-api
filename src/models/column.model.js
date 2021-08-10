@@ -18,7 +18,7 @@ const columnCollectionSchema = Joi.object({
 })
 
 const validateSchema = async (data) => {
-    return await columnCollectionSchema.validateAsync(data, { abortEarly: false })
+    return await columnCollectionSchema.validateAsync(data, { allowUnknown: true, abortEarly: false })
 }
 /**
  *Create new column
@@ -31,7 +31,8 @@ const createNew = async (data) => {
             boardId: ObjectId(validatedValue.boardId)
         }
         const result = await getDB().collection(columnCollection).insertOne(insertValue)
-        return result
+
+        return result.ops[0] || {}
     }
     catch (error) {
         throw new Error(error)
@@ -46,10 +47,9 @@ const pushCardOrder = async (columnId, cardId) => {
             { _id: columnId },
             { $push: { cardOrder: cardId } },
             {
-                upsert: true,
-                returnNewDocument: true
+                upsert: false,
+                returnDocument: 'after'
             })
-        console.log(result)
         return result
     }
     catch (error) {
@@ -57,19 +57,19 @@ const pushCardOrder = async (columnId, cardId) => {
     }
 }
 /**
- *Update new column
+ *Update column
  */
 const update = async (id, data) => {
     try {
-        const result = getDB().collection(columnCollection).findOneAndUpdate(
+        const updatedColumn = await getDB().collection(columnCollection).findOneAndUpdate(
             { _id: ObjectId(id) },
             { $set: data },
             {
-                upsert: true,
-                returnNewDocument: true
+                upsert: false,
+                returnDocument: 'after'
             }
         )
-        return result
+        return updatedColumn.value
     }
     catch (error) {
         throw new Error(error)

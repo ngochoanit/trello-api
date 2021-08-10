@@ -1,5 +1,5 @@
 import { ColumnService } from '*/services/column.service'
-import { HttpStatusCode } from '*/utilities/contans'
+import { HttpStatusCode } from '*/utilities/constants'
 
 /**
  * controller create new column

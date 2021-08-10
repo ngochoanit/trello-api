@@ -17,7 +17,7 @@ const cardCollectionSchema = Joi.object({
 })
 
 const validateSchema = async (data) => {
-    return await cardCollectionSchema.validateAsync(data, { abortEarly: false })
+    return await cardCollectionSchema.validateAsync(data, { allowUnknown: true, abortEarly: false })
 }
 /**
  *Create new Card
@@ -31,10 +31,24 @@ const createNew = async (data) => {
             columnId: ObjectId(validatedValue.columnId)
         }
         const result = await getDB().collection(cardCollection).insertOne(insertValue)
-        return result
+        return result.ops[0] || {}
     }
     catch (error) {
         throw new Error(error)
     }
 }
-export const CardModel = { cardCollection, createNew }
+/**
+ *delete many card in the column
+ */
+const deleteMany = async (columnId) => {
+    try {
+        const result = await getDB().collection(cardCollection).updateMany(
+            { columnId: ObjectId(columnId) },
+            { $set: { _destroy: true } }
+        )
+    }
+    catch (error) {
+        throw new Error(error)
+    }
+}
+export const CardModel = { cardCollection, createNew, deleteMany }

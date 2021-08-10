@@ -9,9 +9,9 @@ const createNew = async (data) => {
     try {
         const newCard = await CardModel.createNew(data)
         //update columnOrder array in the Column
-        const columnId = ObjectId(data.columnId)
-        const cardId = newCard.insertedId
-        const updatedColumn = await ColumnModel.pushCardOrder(columnId, cardId.toString())
+        const columnId = ObjectId(newCard.columnId)
+        const cardId = newCard._id
+        await ColumnModel.pushCardOrder(columnId, cardId.toString())
         return newCard
     }
     catch (error) {

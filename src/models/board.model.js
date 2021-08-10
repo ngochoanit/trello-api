@@ -17,7 +17,7 @@ const boardCollectionSchema = Joi.object({
 })
 
 const validateSchema = async (data) => {
-    return await boardCollectionSchema.validateAsync(data, { abortEarly: false })
+    return await boardCollectionSchema.validateAsync(data, { allowUnknown: true, abortEarly: false })
 }
 /**
  *Create new board
@@ -26,7 +26,7 @@ const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
         const result = await getDB().collection(boardCollection).insertOne(value)
-        return result
+        return result.ops[0] || {}
     }
     catch (error) {
         throw new Error(error)
@@ -41,8 +41,8 @@ const pushColumOrder = async (boardId, columnId) => {
             { _id: boardId },
             { $push: { columnOrder: columnId } },
             {
-                upsert: true,
-                returnNewDocument: true
+                upsert: false,
+                returnDocument: 'after'
             })
         return result
     }
@@ -56,13 +56,7 @@ const pushColumOrder = async (boardId, columnId) => {
 const getFullBoard = async (id) => {
     try {
         const result = await getDB().collection(boardCollection).aggregate([
-            { $match: { _id: ObjectId(id) } },
-            // With boardId on column type string
-            // {
-            //     $addFields: {
-            //         _id: { $toString: '$_id' }
-            //     }
-            // },
+            { $match: { _id: ObjectId(id), _destroy: false } },
             {
                 $lookup: {
                     from: ColumnModel.columnCollection,
@@ -73,6 +67,7 @@ const getFullBoard = async (id) => {
             },
             {
                 $lookup: {
+
                     from: CardModel.cardCollection,
                     localField: '_id',
                     foreignField: 'boardId',
