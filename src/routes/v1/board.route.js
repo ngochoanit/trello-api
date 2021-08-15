@@ -10,9 +10,9 @@ router.route('/')
     // .get((req, res) => { console.log('Get Boards') })
     .post(BoardValidation.createNew, BoardController.createNew)
 /**\
- * Get Board
+ * Get and PUT Board
  */
 router.route('/:id')
     .get(BoardController.getFullBoard)
-
+    .put(BoardValidation.update, BoardController.update)
 export const BoardRoutes = router
