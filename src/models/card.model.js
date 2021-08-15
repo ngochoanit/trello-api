@@ -38,7 +38,7 @@ const createNew = async (data) => {
     }
 }
 /**
- *delete many card in the column
+ *delete many card in the card
  */
 const deleteMany = async (columnId) => {
     try {
@@ -51,4 +51,23 @@ const deleteMany = async (columnId) => {
         throw new Error(error)
     }
 }
-export const CardModel = { cardCollection, createNew, deleteMany }
+/**
+ *Update card
+ */
+const update = async (id, data) => {
+    try {
+        const updatedCard = await getDB().collection(cardCollection).findOneAndUpdate(
+            { _id: ObjectId(id) },
+            { $set: data },
+            {
+                upsert: false,
+                returnDocument: 'after'
+            }
+        )
+        return updatedCard.value
+    }
+    catch (error) {
+        throw new Error(error)
+    }
+}
+export const CardModel = { cardCollection, createNew, deleteMany, update }

@@ -18,4 +18,22 @@ const createNew = async (req, res, next) => {
         })
     }
 }
-export const BoardValidation = { createNew }
+/**
+ * validation for update Board
+ */
+const update = async (req, res, next) => {
+    const condition = Joi.object({
+        title: Joi.string().required().min(3).max(50).trim(),
+        columnOrder: Joi.array().items(Joi.string())
+    })
+    try {
+        await condition.validateAsync(req.body, { abortEarly: false, allowUnknown: true })
+        next()
+    }
+    catch (error) {
+        res.status(HttpStatusCode.BAD_REQUEST).json({
+            error: new Error(error).message
+        })
+    }
+}
+export const BoardValidation = { createNew, update }

@@ -19,5 +19,19 @@ const createNew = async (data) => {
 
     }
 }
+/**
+ * service update card
+*/
+const update = async (id, data) => {
+    try {
+        const updateData = { ...data, updatedAt: Date.now(), boardId: ObjectId(data.boardId), columnId: ObjectId(data.columnId) }
+        if (updateData._id) delete updateData._id
+        const updatedCard = await CardModel.update(id, updateData)
 
-export const CardService = { createNew }
+        return updatedCard
+    }
+    catch (error) {
+        throw new Error(error)
+    }
+}
+export const CardService = { createNew, update }

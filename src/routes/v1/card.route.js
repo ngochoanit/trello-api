@@ -9,5 +9,9 @@ const router = express.Router()
 router.route('/')
     // .get((req, res) => { console.log('Get Cards') })
     .post(CardValidation.createNew, CardController.createNew)
-
+/**\
+ * PUT Card
+ */
+router.route('/:id')
+    .put(CardValidation.update, CardController.update)
 export const CardRoutes = router
