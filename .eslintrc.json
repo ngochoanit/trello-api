@@ -32,7 +32,7 @@
         ],
         "indent": [
             "warn",
-            4
+            8
         ],
         "linebreak-style": 0,
         "semi": [
