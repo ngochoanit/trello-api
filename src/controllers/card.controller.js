@@ -1,4 +1,4 @@
-import { CardService } from '*/services/Card.service'
+import { CardService } from '*/services/card.service'
 import { HttpStatusCode } from '*/utilities/constants'
 
 /**
