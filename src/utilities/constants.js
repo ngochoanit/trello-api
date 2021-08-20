@@ -5,4 +5,4 @@ export const HttpStatusCode = {
     NOT_FOUND: 404,
     INTERNAL_SERVER: 500
 }
-export const WHILE_LIST = ['http://localhost:3000', 'https://trello-app-ngochoan.web.app/']
+export const WHILE_LIST = ['http://localhost:3000', 'https://trello-app-ngochoan.web.app']
