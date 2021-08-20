@@ -22,7 +22,10 @@ const bootServer = () => {
     app.use(express.json())
     // Use Apis V1
     app.use('/v1', apiV1)
-    app.listen(env.APP_PORT, env.APP_HOST, () => {
-        console.log(`Hello Trello app,I'm running : ${env.APP_HOST}:${env.APP_PORT}`)
+    // app.listen(env.APP_PORT, env.APP_HOST, () => {
+    //     console.log(`Hello Trello app,I'm running : ${env.APP_HOST}:${env.APP_PORT}`)
+    // })
+    app.listen(process.env.PORT, () => {
+        console.log(`Hello Trello app,I'm running at port: ${process.env.PORT}/`)
     })
 }
